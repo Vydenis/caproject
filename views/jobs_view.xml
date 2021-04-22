@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- project form window view -->
+
+    <record model="ir.ui.view" id="jobs_form_view">
+        <field name="name">jobs.form</field>
+        <field name="model">caproject.jobs</field>
+        <field name="arch" type="xml">
+            <form string="Jobs Form">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="project_ids"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- project search engine view -->
+
+    <record model="ir.ui.view" id="jobs_search_view">
+        <field name="name">jobs.search</field>
+        <field name="model">caproject.jobs</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="description"/>
+            </search>
+        </field>
+    </record>
+
+        <!-- Project window action -->
+
+        <record model="ir.actions.act_window" id="jobs_list_action">
+            <field name="name">Jobs</field>
+            <field name="res_model">caproject.jobs</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first job
+                </p>
+            </field>
+        </record>
+
+    <!-- override the automatically generated list view for courses -->
+    <record model="ir.ui.view" id="jobs_tree_view">
+        <field name="name">jobs.tree</field>
+        <field name="model">caproject.jobs</field>
+        <field name="arch" type="xml">
+            <tree string="Jobs Tree">
+                <field name="name"/>
+                <field name="project_ids"/>
+            </tree>
+        </field>
+    </record>
+
+
+        <menuitem id="jobs_menu" name="Jobs" parent="caproject_menu"
+                  action="jobs_list_action"/>
+        <!-- Full id location:
+             action="opencademy.course_list_action"
+             It is not required when it is the same module -->
+
+</odoo>

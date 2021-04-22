@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+
+    <!-- project form window view -->
+    <record model="ir.ui.view" id="project_form_view">
+        <field name="name">project.form</field>
+        <field name="model">caproject.project</field>
+        <field name="arch" type="xml">
+            <form string="Project Form">
+                <sheet>
+                    <group>
+                        <group string="Information about project">
+                            <field name="client_id"/>
+                            <field name="name"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="duration"/>
+                        </group>
+                        <group string="Employees used">
+                            <field name="max_employees"/>
+                            <field name="employees_count"/>
+                            <field name="active_employees" widget="progressbar"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description"/>
+                            <!--<field name="price_ids"/> -->
+                            <!-- <field name="price"/> -->
+                        </page>
+                        <page string="Employees">
+                            <group>
+                                <field name="leader_id"/>
+                                <field name="employees_ids"/>
+                            </group>
+                        </page>
+
+                        <!--
+                        <page string="Jobs">
+                            <field name="jobs_ids">
+                                <form>
+                                    <group>
+                                        <field name="name"/>
+                                    </group>
+                                </form>
+                                <tree>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page> -->
+
+                        <page string="Project jobs">
+                            <field name="job_ids">
+                                <tree>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Bill">
+                            <field name="price_ids">
+                            </field>
+                        </page>
+
+                        <!--
+                        jei noriu tik lenteles su kaina
+                        <page string="Price">
+                            <field name="price_ids">
+                                <tree string="Registered sessions">
+                                    <field name="price"/>
+                                </tree>
+                            </field>
+                        </page> -->
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- project search engine view -->
+    <record model="ir.ui.view" id="project_search_view">
+        <field name="name">project.search</field>
+        <field name="model">caproject.project</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <filter name="my_courses" string="My Courses"
+                        domain="[('leader_id', '=', 'Abigail Peterson')]"/>
+                <group string="Group By">
+                    <filter name="by_responsible" string="Responsible"
+                            context="{'group_by': 'leader_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- calendar view -->
+    <record model="ir.ui.view" id="project_calendar_view">
+        <field name="name">project.calendar</field>
+        <field name="model">caproject.project</field>
+        <field name="arch" type="xml">
+            <calendar string="Session Calendar" date_start="start_date" date_stop="end_date" color="leader_id">
+                <field name="name"/>
+            </calendar>
+        </field>
+    </record>
+
+
+    <!-- Project gantt diagramm view -->
+    <record model="ir.ui.view" id="project_gantt_view">
+        <field name="name">caproject.gantt</field>
+        <field name="model">caproject.project</field>
+        <field name="arch" type="xml">
+            <gantt string="Session Gantt"
+                   date_start="start_date" date_stop="end_date"
+                   default_group_by='leader_id'>
+            </gantt>
+        </field>
+    </record>
+
+
+    <!-- Project graph view -->
+    <record model="ir.ui.view" id="caproject_project_graph_view">
+        <field name="name">caproject.project.graph</field>
+        <field name="model">caproject.project</field>
+        <field name="arch" type="xml">
+            <graph string="Employees by projects">
+                <field name="name"/>
+                <field name="employees_count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+
+    <!-- Project window action -->
+    <record model="ir.actions.act_window" id="project_list_action">
+        <field name="name">Projects</field>
+        <field name="res_model">caproject.project</field>
+        <field name="view_mode">tree,form,calendar,gantt,graph</field>
+        <field name="context" eval="{'search_default_my_courses': 1}"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first project
+            </p>
+        </field>
+    </record>
+
+
+    <!-- override the automatically generated list view for courses -->
+    <record model="ir.ui.view" id="project_tree_view">
+        <field name="name">project.tree</field>
+        <field name="model">caproject.project</field>
+        <field name="arch" type="xml">
+            <tree string="Session Tree" decoration-info="duration&lt;5" decoration-danger="duration&gt;15">
+                <field name="name"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="leader_id"/>
+                <field name="client_id"/>
+                <field name="duration" invisible="1"/>
+                <field name="active_employees" widget="progressbar"/>
+                <!-- <field name="price"/> -->
+              <!--  <field name="responsible_id"/> -->
+            </tree>
+        </field>
+    </record>
+
+
+        <!-- top level menu: no parent -->
+    <menuitem id="main_caproject_menu" name="Projects managment"/>
+    <!-- A first level in the left side menu is needed
+         before using action= attribute -->
+        <menuitem id="caproject_menu" name="Projects managment"
+                  parent="main_caproject_menu"/>
+        <!-- the following menuitem should appear *after*
+             its parent openacademy_menu and *after* its
+             action course_list_action -->
+        <menuitem id="projects_menu" name="Projects" parent="caproject_menu"
+                  action="project_list_action"/>
+        <!-- Full id location:
+             action="opencademy.course_list_action"
+             It is not required when it is the same module -->
+
+</odoo>

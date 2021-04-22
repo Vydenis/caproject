@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <odoo>
+
+        <!-- Add instructor field to existing view -->
+        <record model="ir.ui.view" id="employee_form_view">
+            <field name="name">employee.project</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Projects">
+                        <group>
+                            <field name="lead"/>
+                            <field name="project_id"/>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="employee_list_action">
+            <field name="name">Employees</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem id="employee_menu" name="Employees"
+                  parent="configuration_menu"
+                  action="employee_list_action"/>
+
+
+
+
+</odoo>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- project form window view -->
+
+    <record model="ir.ui.view" id="bills_form_view">
+        <field name="name">bills.form</field>
+        <field name="model">caproject.bills</field>
+        <field name="arch" type="xml">
+            <form string="Bills Form">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="project_id"/>
+                    </group>
+                    <group>
+                        <field name="price"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- project search engine view -->
+
+    <record model="ir.ui.view" id="bills_search_view">
+        <field name="name">bills.search</field>
+        <field name="model">caproject.bills</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="project_id"/>
+            </search>
+        </field>
+    </record>
+
+        <!-- Project window action -->
+
+        <record model="ir.actions.act_window" id="bills_list_action">
+            <field name="name">Bills</field>
+            <field name="res_model">caproject.bills</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first bill
+                </p>
+            </field>
+        </record>
+
+    <!-- override the automatically generated list view for courses -->
+    <record model="ir.ui.view" id="bills_tree_view">
+        <field name="name">bills.tree</field>
+        <field name="model">caproject.bills</field>
+        <field name="arch" type="xml">
+            <tree string="Bills Tree">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="price"/>
+            </tree>
+        </field>
+    </record>
+
+
+        <menuitem id="bills_menu" name="Bills" parent="caproject_menu"
+                  action="bills_list_action"/>
+        <!-- Full id location:
+             action="opencademy.course_list_action"
+             It is not required when it is the same module -->
+
+</odoo>
