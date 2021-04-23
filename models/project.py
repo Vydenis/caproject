@@ -32,6 +32,8 @@ class Project(models.Model):
     employees_count = fields.Integer(
         string="Employees in project", compute='_get_employees_count', store=True)
 
+    active = fields.Boolean(default=True)
+    color = fields.Integer()
 
     _sql_constraints = [
         ('name_description_check',
@@ -112,5 +114,5 @@ class Project(models.Model):
     @api.constrains('max_employees', 'employees_ids')
     def _check_number_of_employees(self):
         for r in self:
-            if len(r.employees_ids) and len(r.employees_ids) > r.max_employees:
+            if len(r.employees_ids) > r.max_employees:
                 raise exceptions.ValidationError("Increase slots or remove excess employees")

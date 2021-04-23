@@ -29,7 +29,6 @@
     'data': [
         # 'security/ir.model.access.csv',
         'views/project_view.xml',
-        'views/templates.xml',
         'views/jobs_view.xml',
         'views/bills_view.xml',
         'views/partner_inherintanced_view.xml',
