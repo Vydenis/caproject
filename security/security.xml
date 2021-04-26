@@ -1,0 +1,22 @@
+<odoo>
+
+        <record id="group_manager" model="res.groups">
+            <field name="name">CAproject / Manager</field>
+        </record>
+
+    <!-- leidžia redaguoti irašus tik priskirtiems savininkams -->
+    <!-- <record id="only_responsible_can_modify" model="ir.rule">
+        <field name="name">Only leader can modify project</field>
+        <field name="model_id" ref="model_caproject_project"/>
+        <field name="groups" eval="[(4, ref('caproject.group_manager'))]"/>
+        <field name="perm_read" eval="0"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="domain_force">
+            ['|', ('leader_id','=',False),
+            ('leader_id','=',user.id)]
+        </field>
+    </record> -->
+
+</odoo>

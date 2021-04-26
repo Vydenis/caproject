@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import timedelta
-from odoo import models, fields, api, exceptions
-
+from odoo import models, fields, api, exceptions, _
 
 class Project(models.Model):
     _name = 'caproject.project'
@@ -13,7 +12,7 @@ class Project(models.Model):
     start_date = fields.Date(string="Start Date")
     end_date = fields.Date(string="End Date", store=True,
         compute='_get_end_date', inverse='_set_end_date')
-    duration = fields.Integer(help="Duration in days")
+    duration = fields.Integer(string='Duration (days)', help="Duration in days")
     max_employees = fields.Integer(string='Maximum number of employees')
     # price = fields.Float(string='Price, Eur', required=True, help="Project price in Euro")
 
@@ -32,7 +31,7 @@ class Project(models.Model):
     employees_count = fields.Integer(
         string="Employees in project", compute='_get_employees_count', store=True)
 
-    active = fields.Boolean(default=True)
+    active = fields.Boolean(default=True, store=True)
     color = fields.Integer()
 
     _sql_constraints = [
@@ -45,6 +44,15 @@ class Project(models.Model):
          "The project title must be unique"),
 
     ]
+
+    # today = fields.Date(default=fields.Date.today)
+    # # pabandyti padaryti, kad pasibaigus projekto laikui statusa pakeistu i neaktyvus.
+    # @api.depends('today', 'end_date')
+    # def _get_status(self):
+    #     for r in self:
+    #         if r.end_date < r.today:
+    #             r.active = False
+
 
     # paskaičiuoja kiek darbo vietų projekte užpildyta ir per view.xml išveda procentus ir juostą
     @api.depends('max_employees', 'employees_ids')
@@ -90,15 +98,15 @@ class Project(models.Model):
         if self.max_employees < 0:
             return {
                 'warning': {
-                    'title': "Incorrect 'employees' value",
-                    'message': "The number of active employees may not be negative",
+                    'title': _("Incorrect 'employees' value"),
+                    'message': _("The number of active employees may not be negative"),
                 },
             }
         if self.max_employees < len(self.employees_ids):
             return {
                 'warning': {
-                    'title': "Too many employees in project",
-                    'message': "Increase slots or remove excess employees",
+                    'title': _("Too many employees in project"),
+                    'message': _("Increase slots or remove excess employees"),
                 },
             }
 
@@ -107,7 +115,7 @@ class Project(models.Model):
     def _check_leader_not_in_employees(self):
         for r in self:
             if r.leader_id and r.leader_id in r.employees_ids:
-                raise exceptions.ValidationError("A project leader can't be an employee in project")
+                raise exceptions.ValidationError(_("A project leader can't be an employee in project"))
 
 
     # neleidžia išsaugoti duomenų, jei įvesta daugiau darbuotojų, nei numatytas max skaičius
@@ -115,4 +123,4 @@ class Project(models.Model):
     def _check_number_of_employees(self):
         for r in self:
             if len(r.employees_ids) > r.max_employees:
-                raise exceptions.ValidationError("Increase slots or remove excess employees")
+                raise exceptions.ValidationError(_("Increase slots or remove excess employees"))

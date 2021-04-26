@@ -1,2 +1,8 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
-access_caproject_caproject,caproject.caproject,model_caproject_caproject,,1,0,0,0
+project_manager,project manager,model_caproject_project,group_manager,1,1,1,1
+jobs_manager,jobs manager,model_caproject_jobs,group_manager,1,1,1,1
+bills_manager,bills manager,model_caproject_bills,group_manager,1,1,1,1
+wizard_manager,wizard session manager,model_caproject_wizard,group_manager,1,1,1,1
+project_read_all,project all,model_caproject_project,,1,0,0,0
+jobs_read_all,jobs all,model_caproject_jobs,,1,0,0,0
+bills_read_all,bills all,model_caproject_bills,,1,0,0,0

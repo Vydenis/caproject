@@ -55,23 +55,18 @@
                             <field name="job_ids">
                                 <tree>
                                     <field name="name"/>
+                                    <field name="description"/>
                                 </tree>
                             </field>
                         </page>
                         <page string="Bill">
                             <field name="price_ids">
-                            </field>
-                        </page>
-
-                        <!--
-                        jei noriu tik lenteles su kaina
-                        <page string="Price">
-                            <field name="price_ids">
-                                <tree string="Registered sessions">
+                                <tree string="Bills list">
+                                    <field name="name"/>
                                     <field name="price"/>
                                 </tree>
                             </field>
-                        </page> -->
+                        </page>
                     </notebook>
                 </sheet>
             </form>
@@ -109,8 +104,9 @@
         <field name="name">project.calendar</field>
         <field name="model">caproject.project</field>
         <field name="arch" type="xml">
-            <calendar string="Session Calendar" date_start="start_date" date_stop="end_date" color="leader_id">
+            <calendar string="Project Calendar" date_start="start_date" date_stop="end_date" color="leader_id">
                 <field name="name"/>
+                <field name="leader_id"/>
             </calendar>
         </field>
     </record>
@@ -161,13 +157,19 @@
                             </div>
                             <div t-attf-class="oe_kanban_content">
                                 <!-- title -->
-                                Session name:
-                                <field name="name"/>
+                                Project name:
+                                <b><field name="name"/></b>
+                                <br/>
+                                Leader name:
+                                <b><field name="leader_id"/></b>
                                 <br/>
                                 Start date:
-                                <field name="start_date"/>
+                                <i><field name="start_date"/></i>
                                 <br/>
-                                duration:
+                                End date:
+                                <i><field name="end_date"/></i>
+                                <br/>
+                                Duration:
                                 <field name="duration"/>
                             </div>
                         </div>
@@ -226,5 +228,33 @@
         <!-- Full id location:
              action="opencademy.course_list_action"
              It is not required when it is the same module -->
+
+    <record model="ir.ui.view" id="wizard_form_view">
+        <field name="name">wizard.form</field>
+        <field name="model">caproject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Employees">
+                <group>
+                    <field name="project_ids"/>
+                    <field name="employees_ids"/>
+                </group>
+                <footer>
+                    <button name="subscribe" type="object"
+                            string="Subscribe" class="oe_highlight"/>
+                    or
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="launch_project_wizard" model="ir.actions.act_window">
+        <field name="name">Add Employees</field>
+        <field name="res_model">caproject.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_caproject_project"/>
+    </record>
+
 
 </odoo>
