@@ -33,6 +33,19 @@ class Project(models.Model):
 
     active = fields.Boolean(default=True, store=True)
     color = fields.Integer()
+    # gali buti fields.Binary, neaisku kas geriau, bet binary tinka visiems
+    # failams, ne tik paveiksleliams.
+    image = fields.Image("Image", attachment=True)
+    document_ids = fields.One2many('caproject.document', 'project_id', string='Documents')
+
+    status = fields.Selection([
+        ('draft', "Draft"),
+        ('started', "Started"),
+        ('done', "Done"),
+        ('cancelled', "Cancelled"),
+    ], string="Progress", default='draft', translate=True)
+
+
 
     _sql_constraints = [
         ('name_description_check',
@@ -124,3 +137,23 @@ class Project(models.Model):
         for r in self:
             if len(r.employees_ids) > r.max_employees:
                 raise exceptions.ValidationError(_("Increase slots or remove excess employees"))
+
+
+    def send_project_report(self):
+        # Find the e-mail template
+        template = self.env.ref('caproject.caproject_project_mail_template')
+        # You can also find the e-mail template like this:
+        # template = self.env['ir.model.data'].get_object('send_mail_template_demo', 'example_email_template')
+
+        # Send out the e-mail template to the user
+        self.env['mail.template'].browse(template.id).send_mail(self.id)
+
+
+class ProjectDocument(models.Model):
+    _name = 'caproject.document'
+
+    name = fields.Char(string='Filename')
+    file = fields.Binary(string=_('File'), attachment=True)
+    comment = fields.Text(string=_('Notes'))
+
+    project_id = fields.Many2one('caproject.project')

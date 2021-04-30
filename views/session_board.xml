@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<odoo>
+
+        <record model="ir.actions.act_window" id="act_project_graph">
+            <field name="name">Employees by project</field>
+            <field name="res_model">caproject.project</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id"
+                   ref="caproject.caproject_project_graph_view"/>
+        </record>
+        <record model="ir.actions.act_window" id="act_project_calendar">
+            <field name="name">Projects</field>
+            <field name="res_model">caproject.project</field>
+            <field name="view_mode">calendar</field>
+            <field name="view_id" ref="caproject.project_calendar_view"/>
+        </record>
+        <record model="ir.actions.act_window" id="act_jobs_list">
+            <field name="name">Jobs</field>
+            <field name="res_model">caproject.jobs</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.ui.view" id="board_project_form">
+            <field name="name">Project Dashboard Form</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Project Dashboard">
+                    <board style="2-1">
+                        <column>
+                            <action
+                                string="Employees by project"
+                                name="%(act_project_graph)d"
+                                height="150"
+                                width="510"/>
+                            <action
+                                string="Projects"
+                                name="%(act_project_calendar)d"/>
+                        </column>
+                        <column>
+                            <action
+                                string="Jobs"
+                                name="%(act_jobs_list)d"/>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="open_board_project">
+          <field name="name">Project Dashboard</field>
+          <field name="res_model">board.board</field>
+          <field name="view_mode">form</field>
+          <field name="usage">menu</field>
+          <field name="view_id" ref="board_project_form"/>
+        </record>
+
+    <!-- sequence - eiliskuma suskirsto -->
+        <menuitem
+            name="Project Dashboard" parent="caproject.caproject_menu"
+            action="open_board_project"
+            sequence="1"
+            id="menu_board_project"/>
+
+<!--        dar viena nuoroda, tik jau ne prie caprojects, o prie dashboard meniu-->
+        <menuitem
+        name="CAprojects Dashboard" parent="base.menu_reporting_dashboard"
+        action="open_board_project"
+        sequence="1"
+        id="menu_board_dn_projects2"/>
+
+</odoo>

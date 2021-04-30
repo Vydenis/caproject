@@ -1,0 +1,74 @@
+<odoo>
+    <!-- pdf project report -->
+    <record id="report_project" model="ir.actions.report">
+        <field name="name">Project report</field>
+        <field name="model">caproject.project</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">caproject.report_project_view</field>
+        <field name="report_file">caproject.report_project</field>
+        <field name="binding_model_id" ref="model_caproject_project"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_project_view">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <t t-if="doc.image">
+                            <span t-field="doc.image" t-options='{"widget": "image"}'/>
+                        </t>
+                        <h2 t-field="doc.name"/>
+                        <p>From <span t-field="doc.start_date"/> to <span t-field="doc.end_date"/></p>
+                        <t t-if="doc.leader_id">
+                            <p>Project leader:<span t-field="doc.leader_id"></span></p>
+                        </t>
+
+                        <h3>Employees:</h3>
+                        <ul>
+                            <t t-foreach="doc.employees_ids" t-as="employees">
+                                <li><span t-field="employees.name"/></li>
+                            </t>
+                        </ul>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+    <!-- pdf bill report -->
+    <record id="report_bills" model="ir.actions.report">
+        <field name="name">Bill report</field>
+        <field name="model">caproject.bills</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">caproject.report_bills_view</field>
+        <field name="report_file">caproject.report_bills</field>
+        <field name="binding_model_id" ref="model_caproject_bills"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_bills_view">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <t t-if="doc.image">
+                            <span t-field="doc.image" t-options='{"widget": "image"}'/>
+                        </t>
+                        <h2 t-field="doc.name"/>
+                        <br></br>
+                        <h4>Project name:</h4>
+                        <b><p t-field="doc.project_id"/></b>
+                        <br></br>
+                        <br></br>
+                        Project price:
+                        <b><span t-field="doc.price"></span></b>
+                        Eur
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

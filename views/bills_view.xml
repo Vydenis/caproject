@@ -9,6 +9,9 @@
         <field name="arch" type="xml">
             <form string="Bills Form">
                 <sheet>
+                    <header>
+                        <field name="status" widget="statusbar" options="{'clickable': '1'}"/>
+                    </header>
                     <group>
                         <field name="name"/>
                         <field name="project_id"/>

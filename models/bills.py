@@ -8,3 +8,10 @@ class Bills(models.Model):
     price = fields.Float(string='Price, Eur', required=True, help="Project price in Euro")
 
     project_id = fields.Many2one('caproject.project', string="Project name", required=True)
+
+    status = fields.Selection([
+        ('draft', "Draft"),
+        ('sent', "Sent"),
+        ('paid', "Paid"),
+        ('cancelled', "Cancelled"),
+    ], string="Progress", default='draft', translate=True)

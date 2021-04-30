@@ -3,6 +3,8 @@ project_manager,project manager,model_caproject_project,group_manager,1,1,1,1
 jobs_manager,jobs manager,model_caproject_jobs,group_manager,1,1,1,1
 bills_manager,bills manager,model_caproject_bills,group_manager,1,1,1,1
 wizard_manager,wizard session manager,model_caproject_wizard,group_manager,1,1,1,1
+project_document_manager,project manager,model_caproject_document,,1,1,1,1
 project_read_all,project all,model_caproject_project,,1,0,0,0
 jobs_read_all,jobs all,model_caproject_jobs,,1,0,0,0
 bills_read_all,bills all,model_caproject_bills,,1,0,0,0
+project_document_all,project all,model_caproject_document,,1,1,1,1

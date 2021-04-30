@@ -9,6 +9,12 @@
         <field name="arch" type="xml">
             <form string="Project Form">
                 <sheet>
+                    <header>
+                        <field name="status" widget="statusbar" options="{'clickable': '1'}"/>
+                        <button name="send_project_report" string="Send info to Leader" type="object"
+                                class="oe_highlight" confirm="Send Project info to Leader?"/>
+                    </header>
+                    <field name="image" widget="image" height="150" width="150"/>
                     <group>
                         <group string="Information about project">
                             <field name="client_id"/>
@@ -34,6 +40,23 @@
                             <group>
                                 <field name="leader_id"/>
                                 <field name="employees_ids"/>
+                            </group>
+                        </page>
+                        <page string="Documents">
+                            <group>
+                                <field name="document_ids" widget="one2many">
+                                    <tree quick_create="true" editable="bottom">
+                                        <field name="name"/>
+                                        <field name="file" filename="name"/>
+                                        <field name="comment"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="file" filename="name"/>
+                                            <field name="comment"/>
+                                        </group>
+                                    </form>
+                                </field>
                             </group>
                         </page>
 
@@ -67,6 +90,7 @@
                                 </tree>
                             </field>
                         </page>
+
                     </notebook>
                 </sheet>
             </form>
@@ -156,7 +180,12 @@
                                 <div class="oe_clear"></div>
                             </div>
                             <div t-attf-class="oe_kanban_content">
-                                <!-- title -->
+                                <!-- divas sumazina paveiksleli ir ikisa ji i sona, reiktu dar parametru, kad lygiai butu
+                                 nes be parametru atrodo nekazka-->
+                                <!--<div class="o_kanban_image">
+                                    <field name="image" widget="image"/>
+                                </div> -->
+                                <field name="image" widget="image"/>
                                 Project name:
                                 <b><field name="name"/></b>
                                 <br/>
@@ -199,7 +228,7 @@
         <field name="name">project.tree</field>
         <field name="model">caproject.project</field>
         <field name="arch" type="xml">
-            <tree string="Session Tree" decoration-success="duration&gt;30" decoration-danger="duration&lt;10">
+            <tree string="Project Tree" decoration-success="duration&gt;30" decoration-danger="duration&lt;10">
                 <field name="name"/>
                 <field name="start_date"/>
                 <field name="end_date"/>

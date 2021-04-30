@@ -23,7 +23,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'hr'],
+    'depends': ['base', 'hr', 'board', 'mail'],
 
     # always loaded
     'data': [
@@ -34,9 +34,13 @@
         'views/bills_view.xml',
         'views/partner_inherintanced_view.xml',
         'views/employee_inherintanced_view.xml',
+        'views/session_board.xml',
+        'reports/reports.xml',
+        'mail_templates.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
     ],
+    'auto_install': True,
 }
